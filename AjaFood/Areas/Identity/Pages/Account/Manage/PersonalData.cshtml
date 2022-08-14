@@ -1,0 +1,24 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Smazání účtu";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>Na této stránce je možné smazat svůj účet.</p>
+        <p>
+            <strong>Pokud se tak však rozhodnete, nepůjde to již vrátit zpět. Dojde ke smazání i všech dat souvisejících s Vaším účtem.</strong>
+        </p>
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Smazat</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

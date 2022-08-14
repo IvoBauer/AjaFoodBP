@@ -1,0 +1,50 @@
+﻿@model AjaFood.Models.MealPlan
+
+@{
+    ViewData["Title"] = "Create";
+    List<string> clientNames = ViewBag.ClientNames;
+    List<int> clientIds = ViewBag.ClientIds;
+}
+
+@*<br />*@
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="text-center">
+            <h1>Vytvoření nového jídelníčku</h1>
+        </div>
+    </div>
+</div>
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-0 col-md-4"></div>
+        <div class="col-12 col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:20px;">
+                <label asp-for="ClientId" class="control-label"></label>
+                <select asp-for="ClientId" class="form-control">
+                    @{
+                        foreach (string clientName in clientNames)
+                        {
+                            int clientId = clientIds.First();
+                            clientIds.RemoveAt(0);
+                            <option value="@clientId">@clientName</option>
+                        }
+                        int? lastOptionId = null;
+                    }
+                    <option value="@lastOptionId">---</option>
+                </select>
+            </div>
+
+            <br />
+            <div class="text-center">
+                <button class="btn btn-primary" style="width:150px" asp-action="Index">Zpět</button>
+                <button type="submit" class="btn btn-success" style="width:150px">Vytvořit jídelníček</button>
+            </div>        
+    </div>
+</div>
+</form>

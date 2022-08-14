@@ -1,0 +1,53 @@
+﻿@model AjaFood.Models.MealPlanItem
+
+@{
+    ViewData["Title"] = "Delete";
+    int id = ViewBag.ID;
+}
+
+<div class="container p-3">    
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1>Smazání jídla z jídelníčku</h1>
+        </div>
+
+        <h3>Opravdu chcete smazat toto jídlo z jídelníčku?</h3>
+    </div>
+</div>
+
+<div class="text-center">
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MealPlanItemNote)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MealPlanItemNote)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Food)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Food.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MealPlan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MealPlan.Id)
+        </dd>
+    </dl>
+    <div class="text-center">
+    <form asp-action="Delete">
+        <button class="btn btn-primary" style="width:150px" asp-controller="MealPlan" asp-action="Index">Zpět</button>
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Smazat" style="width:150px" class="btn btn-danger" />
+    </form>
+</div>
+</div>

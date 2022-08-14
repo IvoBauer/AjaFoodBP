@@ -1,0 +1,54 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Přihlásit se";
+}
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <br />
+                <h2>Přihlášení.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
+                    <label asp-for="Input.Email" for="floatingInput" class="form-label">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" type="password" class="form-control" id="floatingInput" autocomplete="new-password" aria-required="true" placeholder="Password"/>
+                    <label asp-for="Input.Password" for="floatingInput">Heslo</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div>
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe" class="form-label">
+                            <input class="form-check-input" asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Přihlásit se</button>
+                </div>                               
+                <div class="row pt-6" style="margin-top: 10px;">
+                    <div class="col-12 text-end">
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrovat se</a>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div> 
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

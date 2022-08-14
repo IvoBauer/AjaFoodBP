@@ -1,0 +1,89 @@
+﻿@model AjaFood.Models.Client
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+            <h1 class="text-center">@Model.FirstName @Model.LastName</h1>
+    </div>
+</div>
+
+<div>
+    <div class="row pt-4">
+        <div class="col-1"></div>
+        <div class="col-12 col-md-5">
+            <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                <h5>@Html.DisplayNameFor(model => model.Email)</h5>
+                <p>@Html.DisplayFor(model => model.Email)</p>
+            </div>
+
+            <br />
+            <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                <h5>@Html.DisplayNameFor(model => model.PhoneNumber)</h5>
+                <p>@Html.DisplayFor(model => model.PhoneNumber)</p>
+            </div>
+
+            <br />
+            <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                <h5>@Html.DisplayNameFor(model => model.Gender)</h5>
+                <p>@Html.DisplayFor(model => model.Gender)</p>
+            </div>
+
+            <br />
+
+
+            <div class="row">
+                <div class="col-4">
+                    <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                        <h5>@Html.DisplayNameFor(model => model.Age)</h5>
+                        <p>@Html.DisplayFor(model => model.Age) let</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                        <h5>@Html.DisplayNameFor(model => model.Weight)</h5>
+                        <p>@Html.DisplayFor(model => model.Weight) kg</p>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                        <h5>@Html.DisplayNameFor(model => model.Height)</h5>
+                        <p>@Html.DisplayFor(model => model.Height) cm</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-12 col-md-5">
+
+                <br />
+                <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                    <h5>@Html.DisplayNameFor(model => model.LifeStyle)</h5>
+                    <p style="word-break: break-all">@Html.DisplayFor(model => model.LifeStyle)</p>
+                </div>
+
+                <br />
+                <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                    <h5>@Html.DisplayNameFor(model => model.FavouriteFoods)</h5>
+                    <p style="word-break: break-all">@Html.DisplayFor(model => model.FavouriteFoods)</p>
+                </div>
+
+                <br />
+                <div style="border-left-style: solid; border-color:green; padding-left:5px;">
+                    <h5>@Html.DisplayNameFor(model => model.Allergies)</h5>
+                    <p style="word-break: break-all">@Html.DisplayFor(model => model.Allergies)</p>
+                </div>
+                <br />
+            </div>
+            <div />
+            <div />
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a class="btn btn-primary" style="width:150px" asp-action="Index">Zpět</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary" style="width:150px">Upravit</a>
+    </div>

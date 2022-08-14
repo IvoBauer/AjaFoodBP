@@ -1,0 +1,53 @@
+﻿@model AjaFood.Models.MealPlan
+
+@{
+    ViewData["Title"] = "Create";
+    List<string> clientNames = ViewBag.ClientNames;
+    List<int> clientIds = ViewBag.ClientIds;
+}
+
+@*<br />*@
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1>Vytvoření nového jídelníčku</h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:20px;">
+                <label asp-for="ClientId" class="control-label"></label>
+                @*<select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientNames"></select>*@
+                <select asp-for="ClientId" class="form-control">
+                    @{
+                        foreach (string clientName in clientNames)
+                        {
+                            int clientId = clientIds.First();
+                            clientIds.RemoveAt(0);
+                            <option value="@clientId">@clientName</option>
+                        }
+                        int? lastOptionId = null;
+                    }
+                    <option value="@lastOptionId">---</option>
+                </select>
+
+                @*<span asp-validation-for="FoodCategoryId" class="text-danger"></span>*@
+            </div>
+
+            <br />
+            <div class="text-end">
+                <button class="btn btn-primary" style="width:150px" asp-action="Index">Zpět</button>
+                <button type="submit" class="btn btn-success" style="width:150px">Uložit změnu</button>
+            </div>
+        </form>
+    </div>
+</div>
+

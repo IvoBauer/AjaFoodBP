@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Profile
+
+@{
+    ViewData["Title"] = "Index";
+    IdentityUser user = ViewBag.User;
+}
+
+<div class="container p-3" style="margin-top:-1em">
+    <div class="row pt-4">
+        <div class="col-12">
+            <h1 style="text-align:center">Veřejný profil</h1>
+        </div>
+    </div>
+</div>
+<p class="text-center">Aby se Váš profil objevil na hlavní stránce, je nutné mít vyplněné <u>uživatelské jméno</u> a <u>popis profilu</u>.</p>
+<div class="row pt-4" style="margin-top:-2em">
+    <div class="col-12 col-md-4"></div>
+
+    <div class="col-12 col-md-4">
+        <div style="border:solid;">
+            <div style="margin-left:10px; margin-right:10px;">
+                @if (Model.Username != null)
+                {
+                    <h2 class="text-center">@Model.Username <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"> <i class="bi bi-pen"></i></a></h2>
+                }
+                else
+                {
+                    <h2 class="text-center">Uživatelské jméno... <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"> <i class="bi bi-pen"></i></a></h2>
+                }
+                <img src="@("/ProfileImages/"+@Model.ImageName)" alt="ProfileImage" class="center" style="max-height:75% ; max-width: 75%; display: block; margin-left: auto;  margin-right: auto;">
+                <br />
+                <br />
+                @if (Model.Introduction != null)
+                {
+                    <p>Popis: @Model.Introduction <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"> <i class="bi bi-pen"></i></a></p>
+                }
+                else
+                {
+                    <p>Popis uživatele... <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"> <i class="bi bi-pen"></i></a></p>
+                }
+
+                <p>Email: @user.Email </p>
+                <p>Telefon: @user.PhoneNumber <a id="manage" class="btn btn-primary mx-2" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="bi bi-pen"></i></a></p>
+            </div>
+        </div>
+    </div>
+</div>

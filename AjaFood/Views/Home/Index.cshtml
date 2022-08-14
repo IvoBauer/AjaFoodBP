@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@model IEnumerable<IdentityUser>
+
+@{
+    ViewData["Title"] = "Home Page";
+    List<Profile> profiles = ViewBag.Profiles;
+}
+<div class="container p-3">
+    <div class="row pt-4">       
+            <h1>Výživoví poradci</h1>
+            <h3>Na této stránce se nacházejí poradci, kteří používají AjaFood.</h3>
+    </div>
+</div>
+
+<div class="row pt-4" style="margin:auto;">
+    @foreach (var item in Model)
+    {
+        Profile profile = new Profile();
+        foreach (var profil in profiles)
+        {
+            if (profil.UserId == item.Id)
+            {
+                profile = profil;
+            }
+        }
+
+        if (profile.Introduction != null && profile.Username != null)
+        {
+            <div class="col-12 col-sm-6 col-md-4" style="padding:10px;">
+                <div style="border:solid;">
+                    <div style="margin-left:10px; margin-right:10px;">
+                        <h2 class="text-center">@profile.Username</h2>
+                        <img src="@("/ProfileImages/"+@profile.ImageName)" alt="ProfileImage" class="center" style="max-height:75% ; max-width: 75%; display: block; margin-left: auto;  margin-right: auto;">                        
+                        <br>
+                        <p>@profile.Introduction</p>
+                        <p>Email: @item.Email</p>
+                        @if (@item.PhoneNumber != null)
+                        {
+                            <p>Telefon: @item.PhoneNumber</p>
+                        }
+                        else
+                        {
+                            <p><wbr></p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

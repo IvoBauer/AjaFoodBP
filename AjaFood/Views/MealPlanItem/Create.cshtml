@@ -1,0 +1,44 @@
+﻿@model AjaFood.Models.MealPlanItem
+
+@{
+    ViewData["Title"] = "Create";    
+    int day = ViewBag.Day;
+
+}
+
+@*<br />*@
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="text-center">
+            <h1>Přidání jídla do jídelníčku</h1>            
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <form asp-action="Create" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MealPlanItemNote" class="control-label"></label>
+                <input asp-for="MealPlanItemNote" class="form-control" />
+                <span asp-validation-for="MealPlanItemNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Název jídla</label>                
+                <select asp-for="FoodId" class="form-control" asp-items="ViewBag.FoodId"></select>
+            </div>
+            <br />
+            <div class="text-center">
+                <button class="btn btn-primary" style="min-width:100px" asp-action="Index" asp-route-id="@ViewBag.ID">Zpět</button>                
+                <input type="hidden" name="dayNumber" value="@day" />
+                <input class="btn btn-success" style="min-width:100px" type="submit" value="Přidat do jídelníčku" />                
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+
+Ke spuštìní aplikace je tøeba mít nainstalované tyto nástroje: 
+	Microsoft Visual Studio
+	Microsoft SQL Server
+
+Dále je potøeba splnit tyto kroky:
+
+1. Rozbalit tento projekt
+2. Dvakrát kliknout na AjaFoodProject.sln (otevøe se Visual Studio)
+
+-- Aktualizace modulù
+3. V Prùzkumníkovi øešení kliknout pravým tlaèítkem na projekt AjaFood, zvolit Spravovat balíèky NuGet
+4. Pøejít do navigace Aktualizace a nainstalovat všechny potøebné aktualizace
+
+-- Vytvoøení databáze
+4. Otevøít Microsoft SQL Server a zjistit název serveru, který se doplní do ConnectionString v souboru appsettings.json
+5. Vytvoøit databázi:
+	Nástroje > Správce balíèkù NuGet > Konzola správce balíèkù 
+	Do této konzole napsat pøíkaz: update-database
+	Tím se vytvoøila databáze.
+
+V tuto chvíli by již mìlo být možné aplikaci spustit pomocí služby IIS Express. Po startu aplikace je doporuèován následující postup:
+
+1. Registrace
+2. Vytvoøení kategorie jídel (není nutné)
+3. Vytvoøení receptu
+4. Vytvoøení klienta
+5. Vytvoøení jídelníèku
+6. Pøidání jídel do jídelníèku
+7. Generování PDF z vytvoøeného jídelníèku	
+	
+	

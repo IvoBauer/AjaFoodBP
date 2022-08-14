@@ -1,0 +1,49 @@
+﻿@model AjaFood.Models.Profile
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container p-3" style="margin-top:-1em">
+    <div class="row pt-4">
+        <div class="col-12">
+            <h1 style="text-align:center">Úprava veřejného profilu</h1>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div class="row pt-4" style="margin-top:-2em">
+        <div class="col-2"></div>
+
+        <div class="col-12 col-md-3">
+            <img src="@("/ProfileImages/"+Model.ImageName)" alt="ProfileImage" style="height: auto; width: 100%; margin-top:10px; border:dashed">
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/*" />
+                <span asp-validation-for="ImageName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <br />
+            <div class="form-group">
+                <h5>@Html.DisplayNameFor(model => model.Username)</h5>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <h5>@Html.DisplayNameFor(model => model.Introduction)</h5>
+                <textarea asp-for="Introduction" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Introduction" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="text-center">
+        <button class="btn btn-primary" style="width:150px" asp-action="Index">Zpět</button>
+        <button type="submit" class="btn btn-success" style="width:150px">Uložit změnu</button>
+    </div>
+</form>

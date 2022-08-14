@@ -1,0 +1,164 @@
+﻿@model AjaFood.Models.Food
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@*<br />*@
+<div class="container p-3">    
+    <div class="row pt-4">
+        <div class="col-12 col-md-6">
+            <h1>Vytváření nového receptu</h1>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Create" enctype="multipart/form-data">
+<div class="row">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-3 col-xs-12" style="margin-top:20px;">        
+            <img src="/images/defaultImage.png" alt="defaultImage" style="height: auto; width: 100%; margin-top:10px;" id="foodImage"> 
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/*" id="imageInput" onchange="showUploadedFile(event)"/>
+                <span asp-validation-for="ImageName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="form-group" style="margin-top:20px;">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-top:20px;">
+                    <label asp-for="FoodCategoryId" class="control-label"></label>
+                    <select asp-for="FoodCategoryId" class="form-control" asp-items="ViewBag.FoodCategories"></select>                    
+                </div>
+                <div class="form-group"style="margin-top:20px;">
+                    <label asp-for="Note" class="control-label"></label>                
+                    <textarea asp-for="Note" class="form-control" rows="7"></textarea>
+                    <span asp-validation-for="Note" class="text-danger"></span>
+                </div>
+</div>        
+<div class="col-md-3 col-12" id="foodDiv" style="display:none">
+        <h2 style="text-align:center; margin-top: 50px;">Rozdělení živin</h2>
+        <div 
+            id="foodChart" >
+        </div>
+<script>
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var fatsValue = parseFloat(document.getElementById("inputFats").value);        
+        var carbohydratesFalue = parseFloat(document.getElementById("inputCarbohydrates").value);        
+        var proteinsValue = parseFloat(document.getElementById("inputProtein").value);        
+        
+        if ((fatsValue == null) || (isNaN(fatsValue))){
+            fatsValue = 0;
+        }
+        
+        if ((carbohydratesFalue == null) || (isNaN(carbohydratesFalue))){
+            carbohydratesFalue = 0;
+        }
+
+        if ((proteinsValue == null) || (isNaN(proteinsValue))){
+            proteinsValue = 0;
+        }
+
+        var data = 0;
+        if (((fatsValue > 0) || (carbohydratesFalue > 0) || (proteinsValue > 0)) && ((fatsValue >= 0) && (carbohydratesFalue >= 0) && (proteinsValue >= 0))){
+            var data = google.visualization.arrayToDataTable([
+            ['Macronutrients', '%'],
+            ['Tuky', fatsValue],
+            ['Sacharidy', carbohydratesFalue],
+            ['Bílkoviny', proteinsValue],                  
+        ]);
+        console.log("splnuje pozadavky")
+        console.log(fatsValue)
+        console.log(carbohydratesFalue)
+        console.log(proteinsValue)
+
+        var foodDiv = document.getElementById("foodDiv");
+        foodDiv.style.display = "block";
+
+        } else {
+            var data = google.visualization.arrayToDataTable([
+            ['Macronutrients', '%'],
+            ['Tuky', 0],
+            ['Sacharidy', 0],
+            ['Bílkoviny', 0],                       
+        ]);
+
+        var foodDiv = document.getElementById("foodDiv");
+        foodDiv.style.display = "none";
+        
+        }
+
+        var options = {
+        legend: 'GRAF',
+        legend:{position: 'bottom'},
+        pieHole: 0.35,
+        chartArea: {
+            left: '5%',
+            right: '5%',
+            top: '5%',
+            width: '80%',
+            height: '80%'
+        }  
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('foodChart'));
+        chart.draw(data, options);
+     }
+
+    window.onresize = function(){
+        drawChart();
+    }
+
+    function showUploadedFile(event) {
+        var imageInput = document.getElementById("foodImage");
+        imageInput.src = URL.createObjectURL(event.target.files[0]);        
+    }
+</script>
+</div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4 col-xs-12"></div>
+    <div class="col-md-4 col-xs-12">
+
+
+        <div class="row">
+            <div class="col-sm-3 col-12"> 
+                        <label class="control-label">Nutriční hodnota na 100g:</label>
+            </div>                    
+            <div class="col-sm-3 col-4" > 
+                <label asp-for="Fats" class="control-label"></label>
+                <input asp-for="Fats" class="form-control" oninput="drawChart()" id="inputFats"/>
+                <span asp-validation-for="Fats" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-4"> 
+                <label asp-for="Carbohydrates" class="control-label"></label>
+                <input asp-for="Carbohydrates" class="form-control" oninput="drawChart()" id="inputCarbohydrates"/>
+                <span asp-validation-for="Carbohydrates" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-4"> 
+                <label asp-for="Proteins" class="control-label"></label>
+                <input asp-for="Proteins" class="form-control" oninput="drawChart()" id="inputProtein"/>
+                <span asp-validation-for="Proteins" class="text-danger"></span>
+            </div>
+        </div>
+
+        <br />
+        <div class="text-center">   
+            <button class="btn btn-primary" style="width:150px" asp-controller="Food" asp-action="Index">Zpět</button>                                              
+            <button type="submit" class="btn btn-success" style="width:150px">Přidat recept</button>   
+        </div>
+                
+    </div>
+</div>
+</form>     
+

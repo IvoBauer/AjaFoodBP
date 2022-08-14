@@ -1,0 +1,32 @@
+﻿@model FoodCategory
+
+
+<div class="container p-3">
+    @*padding top = 4*@
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1>Smazání kategorie</h1>
+        </div>
+
+        <h3>Opravdu chcete smazat kategorii <b>@Model.CategoryName</b>?</h3>
+    </div>
+</div>
+
+<div class="text-center">
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+    </dl>
+    <div class="text-center">
+        <form asp-action="Delete">
+            <button class="btn btn-primary" style="width:150px" asp-action="Index">Zpět</button>
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Smazat" style="width:150px" class="btn btn-danger" />
+        </form>
+    </div>
+</div>

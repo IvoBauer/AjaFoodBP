@@ -1,0 +1,47 @@
+﻿@model AjaFood.Models.MealPlanItem
+
+@{
+    ViewData["Title"] = "Edit";
+    int day = ViewBag.Day;   
+    int MealPlanId = ViewBag.MealPlanId;   
+
+}
+
+@*<br />*@
+<div class="container p-3">    
+    <div class="row pt-4 text-center">
+        <h1>Úprava jídelníčku</h1>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-12 col-md-4"></div>
+    <div class="col-12 col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="MealPlanItemNote" class="control-label"></label>
+                <input asp-for="MealPlanItemNote" class="form-control" />
+                <span asp-validation-for="MealPlanItemNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FoodId" class="control-label"></label>
+                <select asp-for="FoodId" class="form-control" asp-items="ViewBag.FoodId"></select>
+                <span asp-validation-for="FoodId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="text-center">                            
+                <input type="hidden"  name="dayNumber" value="@day" />
+                <input type="hidden"  name="MealPlanId" value="@MealPlanId" />
+                <button class="btn btn-primary" style="width:150px" asp-action="Index">Zpět</button>
+                <input class="btn btn-success" type="submit" value="Uložit změnu"/>
+            </div>
+        </form>
+    </div>
+</div>

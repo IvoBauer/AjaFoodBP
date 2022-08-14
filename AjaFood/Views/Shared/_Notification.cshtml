@@ -1,0 +1,15 @@
+﻿@if(TempData["success"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    @*<h2>@TempData["success"]</h2>*@
+    <script type="text/javascript">
+        toastr.success('','@TempData["success"]',{timeOut: 2500}, {opacity: 1})
+    </script>
+}
+
+@if(TempData["error"] != null)
+{
+    <h2>@TempData["error"]</h2>
+}

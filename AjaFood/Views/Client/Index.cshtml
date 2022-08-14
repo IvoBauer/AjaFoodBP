@@ -1,0 +1,67 @@
+﻿@model IEnumerable<AjaFood.Models.Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1>Přehled klientů</h1>
+        </div>
+
+        <div class="col-6 text-end">
+            <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i>&nbsp; Přidat klienta</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="table-responsive-sm">
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td style="min-width:200px;" class="text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary mx-2">
+                            <i class="bi bi-info-circle"></i></a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2">
+                            <i class="bi bi-pen"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2">
+                            <i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

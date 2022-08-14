@@ -1,0 +1,339 @@
+﻿@using System.Collections
+@model IEnumerable<AjaFood.Models.MealPlanItem>
+
+@{
+    //ViewData["Title"] = "Index";
+    var ID = ViewBag.ID;
+    var Title = ViewBag.Title;
+    var ClientName = ViewBag.ClientName;
+    var ClientId = ViewBag.ClientId;
+    List<string> clientNames = ViewBag.ClientNames;
+    List<int> clientIds = ViewBag.ClientIds;
+
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-12">
+
+            <h1 id="Title">@Title <a class="btn btn-primary mx-2" onclick="editView()"><i class="bi bi-pen"></i></a><a asp-controller="MealPlan" asp-action="Delete" asp-route-id="@ID" class="btn btn-danger"><i class="bi bi-trash"></i></a></h1>
+            <h2 id="Client">Klient: @ClientName</h2>
+            <form method="post" id="EditTitle" style="display:none;">
+                <label class="control-label">Jméno jídelníčku</label>
+                <br />
+                <input class="form-control form-control-lg" name="changePlanName" value="@Title" style="width:50%" />
+                <br />
+                <br />
+                <label class="control-label">Jméno klienta</label>
+                <br />
+                <select name="newClientId" class="form-control" value="" style="width:50%">
+                    @{
+                        foreach (string clientName in clientNames)
+                        {
+                            int clientId = clientIds.First();
+                            clientIds.RemoveAt(0);
+                            if (clientId == ClientId)
+                            {
+                                <option value="@clientId" selected>@clientName</option>
+                            }
+                            else
+                            {
+                                <option value="@clientId">@clientName</option>
+                            }
+                        }
+                        int? lastOptionId = null;
+
+                        if (ClientId == null)
+                        {
+                            <option value="@lastOptionId" selected>---</option>
+                        }
+                        else
+                        {
+                            <option value="@lastOptionId">---</option>
+                        }
+                    }
+
+                </select>
+
+                <p>
+                    <br />
+                    <a class="btn btn-danger mx-2" onclick="editView()">Zahodit změnu</a>
+                    <input class="btn btn-success" asp-controller="MealPlan" asp-action="EditMealPlanItemInfo" asp-route-id="@ID" type="submit" value="Uložit" />
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@{
+    int numberOfDays = 0;
+    List<int> dayList = new List<int>();
+    foreach (var item in Model)
+    {
+        dayList.Add(item.NumberOfDay);
+    }
+    IEnumerable<int> uniqueDays = dayList.Distinct();
+    int newDayIndex = 1;
+    if (uniqueDays.Count() > 0)
+    {
+        newDayIndex += uniqueDays.Max();
+    }
+    //uniqueDays = dayList.Distinct();
+    int distinctCount = dayList.Distinct().Count();
+
+    int dayIndex = 1;
+    foreach (var day in uniqueDays)
+    {
+        double totalCalories = 0;
+        double totalFats = 0;
+        double totalCarbohydrates = 0;
+        double totalProteins = 0;
+        string graphId = "foodChart" + @dayIndex;
+
+        <div class="row pt-4">
+            <div class="col-6">
+                <h2>@dayIndex. den</h2>
+            </div>
+            <div class="col-6 text-end">
+                <form>
+                    <input type="hidden" name="dayNumber" value="@day" />
+                    <input class="btn btn-primary" asp-controller="MealPlanItem" asp-action="Create" asp-route-id="@ID" type="submit" value="Přidat jídlo" />
+                </form>
+            </div>
+        </div>
+
+
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MealPlanItemNote)
+                    </th>
+                    <th>
+                        Množství [g]
+                    </th>
+                    <th>
+                        Název jídla
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    string lastSection = "";
+                    string trStyle = "";
+                    <tr style="border-top:double"></tr>
+                    foreach (var item in Model)
+                    {
+                        if (item.NumberOfDay == day)
+                        {
+                            if (lastSection != item.MealPlanItemNote)
+                            {
+                                trStyle = "border-top:double";
+                            }
+                            else
+                            {
+                                trStyle = "";
+                            }
+
+                            double calories = item.Food.Fats * 9 + item.Food.Carbohydrates * 4 + item.Food.Proteins * 4;
+                            calories = (calories / 100) * item.Quantity;
+                            totalCalories += calories;
+                            totalFats += (item.Food.Fats / 100) * item.Quantity;
+                            totalCarbohydrates += (item.Food.Carbohydrates / 100) * item.Quantity;
+
+                            totalProteins += ((item.Food.Proteins / 100) * item.Quantity);
+                            <tr style="@trStyle">
+                                <td>
+                                    @item.MealPlanItemNote
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    @item.Food.Name
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2 btnEdit"> <i class="bi bi-pen"></i> Upravit</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btnDelete"><i class="bi bi-trash"></i> Smazat</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            lastSection = item.MealPlanItemNote;
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+        dayIndex++;
+
+        <div class="row">
+            <div class="col-12 col-md-5 col-lg-3 center">
+                <div id="@graphId" style="width:80%; height:275px; margin-left: auto;  margin-right: auto;"></div>
+
+                @if (@totalCalories > 0)
+                {                    
+                    double totalFatsRounded = Math.Round(totalFats, 0);
+                    double totalCarbohydratesRounded = Math.Round(totalCarbohydrates, 0);                    
+                    double totalProteinsRounded = Math.Round(totalProteins,0);
+                    totalCalories = Math.Round(totalCalories, 1);
+                    totalFats = Math.Round(totalFats, 1);
+                    totalCarbohydrates = Math.Round(totalCarbohydrates, 1);
+                    totalProteins = Math.Round(totalProteins, 1);
+
+                    <script>
+                        google.charts.load('current', {'packages':['corechart']});
+                        google.charts.setOnLoadCallback(drawChart);
+
+                        function drawChart() {
+
+                        var data = google.visualization.arrayToDataTable([
+                        ['Macronutrients', '%'],
+                        ['Tuky', @totalFatsRounded],
+                        ['Sacharidy', @totalCarbohydratesRounded],
+                        ['Bílkoviny', @totalProteinsRounded],
+                        ]);
+
+                        var options = {
+                        //title:'Nutrient distribution chart',
+                        //title:{position: 'bottom'},
+                        legend: 'GRAF',
+                        legend:{position: 'bottom'},
+                        //backgroundColor: '#E4E4E4',
+                        pieHole: 0.35,
+                        chartArea: {
+                        left: '5%',
+                        right: '5%',
+                        top: '5%',
+                        width: '80%',
+                        height: '80%'
+                        }
+
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('@graphId'));
+                        chart.draw(data, options);
+                        }
+
+                        window.onresize = function(){
+                        if(screen.availWidth < 768){
+                                const collection = document.getElementsByClassName("btnEdit");
+                                for (let i = 0; i < collection.length; i++) {
+                                    collection[i].innerHTML = "<i class=\"bi bi-pen\"></i>";
+                                }
+
+                                const collection2 = document.getElementsByClassName("btnDelete");
+                                for (let i = 0; i < collection2.length; i++) {
+                                    collection2[i].innerHTML = "<i class=\"bi bi-trash\"></i>";
+                                }
+
+
+                                //document.getElementsByClassName("btnEdit").innerHTML  = "";
+                            } else {
+                                const collection = document.getElementsByClassName("btnEdit");
+                                for (let i = 0; i < collection.length; i++) {
+                                    collection[i].innerHTML = "<i class=\"bi bi-pen\"></i> Upravit";
+                                }
+
+                                const collection2 = document.getElementsByClassName("btnDelete");
+                                for (let i = 0; i < collection2.length; i++) {
+                                    collection2[i].innerHTML = "<i class=\"bi bi-trash\"></i> Smazat";
+                                }
+                            }
+                        }
+                    </script>
+                }
+            </div>
+            <div class="col-12 col-md-4 col-lg-3" style="margin-top:5vh;">
+                <table class="table table-bordered table-striped" style="width:50%;  margin-left: auto;  margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th>
+                                Celkem kcal
+                            </th>
+                            <th>
+                                Tuků
+                            </th>
+                            <th>
+                                Sacharidů
+                            </th>
+                            <th>
+                                Bílkovin
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @totalCalories
+                            </td>
+                            <td>
+                                @totalFats
+                            </td>
+                            <td>
+                                @totalCarbohydrates
+                            </td>
+                            <td>
+                                @totalProteins
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    distinctCount++;
+
+    <div class="row pt-4">
+        <div class="col-6"></div>
+        <div class="col-6 text-end">
+            <form>
+                <input type="hidden" name="dayNumber" value="@newDayIndex" />
+                <input class="btn btn-primary" asp-controller="MealPlanItem" asp-action="Create" asp-route-id="@ID" type="submit" value="Přidat jídlo do dalšího dne" />
+            </form>
+        </div>
+    </div>
+    
+}
+
+
+<script>
+
+    function editView(){
+         if (document.getElementById("Title").style.display == "none") {
+             document.getElementById("Title").style.display = "block";
+             document.getElementById("EditTitle").style.display = "none";
+         } else {
+             document.getElementById("Title").style.display = "none";
+             document.getElementById("EditTitle").style.display = "block";
+         }
+         }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

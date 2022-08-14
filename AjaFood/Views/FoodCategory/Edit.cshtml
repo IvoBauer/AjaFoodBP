@@ -1,0 +1,24 @@
+﻿@model FoodCategory
+
+@*<br />*@
+<div class="container p-3">
+    <div class="row pt-4 text-center">
+        <h1>Úprava kategorie</h1>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-12 col-md-4"></div>
+    <div class="col-12 col-md-4">
+        <form method="post">
+            <label asp-for="CategoryName">Jméno kategorie:</label>
+            <input style="margin-left:10px" asp-for="CategoryName" /><br />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+            <br />
+            <div class="text-center">
+                <button class="btn btn-primary" style="width:150px" asp-controller="FoodCategory" asp-action="Index">Zpět</button>
+                <button type="submit" class="btn btn-success" style="width:150px">Uložit změnu</button>
+            </div>
+        </form>
+    </div>
+</div>
